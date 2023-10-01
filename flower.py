@@ -169,8 +169,8 @@ def Color_hist(cut1,cut2,cut3):
     return color_hist_1,color_hist_2,color_hist_3
 
 def Compare_Hist(h1,h2):
-    H1=plt.hist(h1,36,(0,36))
-    H2=plt.hist(h2,36,(0,36))
+    H1=plt.hist(h1,108,(0,108))
+    H2=plt.hist(h2,108,(0,108))
 
     H1_array=H1[0]
     H1_array=H1_array[:,np.newaxis]
@@ -182,3 +182,19 @@ def Compare_Hist(h1,h2):
     dis=(cv2.compareHist(H1_array,H2_array , method=cv2.HISTCMP_BHATTACHARYYA))#¤Ú¤ó¶ZÂ÷
     
     return corr ,dis
+
+
+def To_Data(img):
+    name=img.split("/")
+    Cut(img)
+    H1,H2,H3=Color_hist("cut1_"+name[-2]+"_"+name[-1],
+                        "cut2_"+name[-2]+"_"+name[-1],
+                        "cut3_"+name[-2]+"_"+name[-1])
+    H2_remake=[]
+    H3_remake=[]
+    for i in H2:
+        H2_remake.append(i*2)
+    for i in H3:
+        H3_remake.append(i*3)
+    H=H1+H2_remake+H3_remake    
+    return H
